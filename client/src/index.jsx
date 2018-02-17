@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import { dummyData } from '../../data.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,20 +12,45 @@ class App extends React.Component {
       repos: []
     }
 
+    this.search = this.search.bind(this);
   }
 
+  // componentDidMount() {
+  //   //console.log(this.props.dummyData)
+  //   //this should get all the repos to display on each refresh.
+  //   $.ajax({
+  //     url: '/repos',
+  //     method: 'GET',
+  //     success: (data) => {
+  //       console.log(data);
+  //     }
+  //   }) 
+  // }
+
   search (term) {
-    console.log(`${term} was searched`);
+    //console.log(`${term} was searched`);
     // TODO
+    $.ajax({
+      method: 'POST',
+      url: '/repos',
+      data: JSON.stringify({term: term}),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log(data);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
+      <Search onSearch={this.search}/>
       <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
     </div>)
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App dummyData={dummyData}/>, document.getElementById('app'));

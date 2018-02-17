@@ -1,16 +1,21 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
+  name: String,
+  ownerName: String,
+  link: String,
+  id: {type: Number, unique: true, required: true},
 });
+
+repoSchema.plugin(uniqueValidator);
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+let save = (name, ownerName, link, id) => {
+
 }
 
 module.exports.save = save;

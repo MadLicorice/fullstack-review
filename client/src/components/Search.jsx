@@ -6,6 +6,10 @@ class Search extends React.Component {
     this.state = {
       term: ''
     }
+
+    // this.handleKeyUp= this.handleKeyUp.bind(this);
+    this.search = this.search.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   onChange (e) {
@@ -13,6 +17,10 @@ class Search extends React.Component {
       term: e.target.value
     });
   }
+
+  // handleKeyUp(e) {
+  //   console.log(e.target.value);
+  // }
 
   search() {
     this.props.onSearch(this.state.term);
