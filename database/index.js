@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const Promise = require('bluebird')
 
+//mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
@@ -14,8 +16,33 @@ repoSchema.plugin(uniqueValidator);
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (name, ownerName, link, id) => {
-
+let saver = (repoObj) => {
+  console.log('confirm:in saver function')
+  let repo = new Repo({
+    name: repoObj.name,
+    ownerName: repoObj.ownerName,
+    link: repoObj.link,
+    id: repoObj.id,
+  });
+  repo.save((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
 }
 
-module.exports.save = save;
+let getter = () => {
+  console.log('IM IN GETTER ASYNC')
+  Repo.find({}, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(data);
+    }
+  })
+}
+
+
+module.exports.Repo = Repo;
+module.exports.saver = saver;
+module.exports.getter = getter;

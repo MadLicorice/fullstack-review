@@ -15,28 +15,36 @@ class App extends React.Component {
     this.search = this.search.bind(this);
   }
 
-  // componentDidMount() {
-  //   //console.log(this.props.dummyData)
-  //   //this should get all the repos to display on each refresh.
-  //   $.ajax({
-  //     url: '/repos',
-  //     method: 'GET',
-  //     success: (data) => {
-  //       console.log(data);
-  //     }
-  //   }) 
-  // }
+  componentDidMount() {
+    $.ajax({
+      url: '/repos',
+      method: 'GET',
+      success: (data) => {
+        console.log(data);
+      }
+    }) 
+  }
+
+  fetchRepos() {
+    $.ajax({
+      url: '/repos',
+      method: 'GET',
+      success: (data) => {
+        console.log(data);
+      }
+    }) 
+  }
 
   search (term) {
-    //console.log(`${term} was searched`);
-    // TODO
     $.ajax({
       method: 'POST',
       url: '/repos',
       data: JSON.stringify({term: term}),
       contentType: 'application/json',
       success: (data) => {
-        console.log(data);
+        setTimeout(() => {
+          this.fetchRepos();
+        }, 5000);
       },
       error: (err) => {
         console.log(err);
