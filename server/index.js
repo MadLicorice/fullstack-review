@@ -4,7 +4,6 @@ const getRepo = require('../helpers/github.js');
 const Promise = require('bluebird');
 const db = require('../database/index.js');
 const mongoose = require('mongoose');
-const model = require('../database/index.js');
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -32,18 +31,16 @@ app.post('/repos', function (req, res) {
 
 app.get('/repos', function (req, res) {
   console.log(req.body);
-  model.Repo.find({}, (err, data) => {
+  db.Repo.find({}, (err, data) => {
     if (err) {
       console.log(err);
     } else {
       res.send(data)
     }
-})
-  // db.getter(res.send(result));
-  // res.status(200);
-  // res.send('GET OK');
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+  })
+  .limit(25)
+  .sort({ownerName: 1})
+
 });
 
 let port = 1128;

@@ -31,18 +31,18 @@ let saver = (repoObj) => {
   });
 }
 
-let getter = () => {
-  console.log('IM IN GETTER ASYNC')
-  Repo.find({}, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(data);
-    }
-  })
-}
+// let getter = (callback) => {
+//   console.log('IM IN GETTER')
+//   Repo.find({}, (err, data) => {
+//     if (err) {
+//       callback(err, null);
+//     } else {
+//       callback(null, data);
+//     }
+//   })
+// }
 
 
 module.exports.Repo = Repo;
 module.exports.saver = saver;
-module.exports.getter = getter;
+//module.exports.getter = getter;

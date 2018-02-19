@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
-import { dummyData } from '../../data.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,18 +10,15 @@ class App extends React.Component {
     this.state = { 
       repos: []
     }
-
     this.search = this.search.bind(this);
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/repos',
-      method: 'GET',
-      success: (data) => {
-        console.log(data);
-      }
-    }) 
+    this.fetchRepos();
+  }
+
+  updateRepos(data) {
+    this.setState({repos: data});
   }
 
   fetchRepos() {
@@ -30,7 +26,7 @@ class App extends React.Component {
       url: '/repos',
       method: 'GET',
       success: (data) => {
-        console.log(data);
+        this.updateRepos(data);
       }
     }) 
   }
@@ -44,7 +40,7 @@ class App extends React.Component {
       success: (data) => {
         setTimeout(() => {
           this.fetchRepos();
-        }, 5000);
+        }, 2000);
       },
       error: (err) => {
         console.log(err);
@@ -61,4 +57,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App dummyData={dummyData}/>, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
